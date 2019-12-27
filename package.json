@@ -1,0 +1,26 @@
+{
+  "name": "qoo",
+  "version": "0.0.1",
+  "description": "tiny jQuery alternative with very basic functions",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/udovichenko/qoo.git"
+  },
+  "author": "Dmitry Udovichenko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/udovichenko/qoo/issues"
+  },
+  "keywords": [
+    "js",
+    "javascript",
+    "dom",
+    "jQuery-like",
+    "library"
+  ],
+  "homepage": "https://github.com/udovichenko/qoo#readme",
+  "devDependencies": {
+    "browser-sync": "^2.26.7",
+    "gulp": "^4.0.2"
+  }
+}

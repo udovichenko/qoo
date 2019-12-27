@@ -1,0 +1,12 @@
+node_modules/*
+npm-debug.log
+
+.idea/
+.buildpath
+.project
+.settings/
+nbproject/
+
+.DS_Store
+
+error_log

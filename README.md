@@ -1,2 +1,2 @@
 # qoo
-tiny jquery alternate with basic functions
+tiny jquery-like library with basic functions and chaining
