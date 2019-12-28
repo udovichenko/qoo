@@ -82,6 +82,7 @@
         },
 
         toggleClass: function(v) {
+            // TODO refactor
             var a = v.split(' ');
             return this.each(function(i) {
                 for (var x = 0; x < a.length; x++) {
@@ -164,6 +165,24 @@
                 return child !== thisElem;
             });
             return this;
+        },
+
+        children: function() {
+            var children = [];
+            this.each(function(i) {
+                var thisChildren = Array.prototype.slice.call(i.children);
+                children = children.concat(thisChildren);
+            });
+            this.el = children;
+            return this;
+        },
+
+        find: function() {
+            // TODO
+        },
+
+        closest: function() {
+            // TODO
         },
 
         offset: function() {
