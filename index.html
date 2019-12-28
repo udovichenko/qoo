@@ -5,7 +5,9 @@
             .replace("HOST", location.hostname));
 
     q(function() {
-        console.log(q('div'));
+        q('div').on('shake', function(e) {
+            console.log(this, e.detail);
+        });
     });
 </script>
 

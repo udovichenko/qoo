@@ -10,7 +10,7 @@
     if (!Element.prototype.matches) {
         Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
     }
-    
+
     var qoo = function(s) {
         if (typeof s === "string") {
             this.el = Array.prototype.slice.call(document.querySelectorAll(s));
@@ -29,8 +29,19 @@
 
     qoo.prototype = {
         n: function(n) {
+            if (n < 0) {
+                n = this.el.length + n;
+            }
             this.el = [this.el[n]];
             return this;
+        },
+
+        first: function(){
+            return this.n(0);
+        },
+
+        last: function(){
+            return this.n(-1);
         },
 
         each: function(fn) {
@@ -69,6 +80,19 @@
         on: function(type, fn) {
             return this.each(function(i) {
                 i.addEventListener(type, fn, false);
+            });
+        },
+
+        trigger: function(eventType, data) {
+            var event;
+            if (window.CustomEvent && typeof window.CustomEvent === 'function') {
+                 event = new CustomEvent(eventType, {detail: data});
+            } else {
+                event = document.createEvent('CustomEvent');
+                event.initCustomEvent(eventType, true, true, data);
+            }
+            return this.each(function(el) {
+                el.dispatchEvent(event);
             });
         },
 
@@ -220,6 +244,10 @@
             });
         },
 
+        is: function(selector){
+            return this.el[0].matches(selector);
+        },
+
         offset: function() {
             return this.each(function(i) {
                 offset = i.getBoundingClientRect();
@@ -265,7 +293,7 @@
     var utils = function(selector) {
         return new qoo(selector);
     };
-    
+
     utils.isMobile = function() {
         return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
     };
