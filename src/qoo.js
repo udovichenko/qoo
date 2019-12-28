@@ -28,15 +28,18 @@
             this.el = [this.el[n]];
             return this;
         },
+
         each: function(fn) {
             [].forEach.call(this.el, fn);
             return this;
         },
+
         css: function(v) {
             return this.each(function(i) {
                 i.style.cssText = i.style.cssText + v;
             });
         },
+
         cssdom: function(v) {
             return this.each(function(i) {
                 for (var key in v) {
@@ -44,29 +47,35 @@
                 }
             });
         },
+
         attr: function(a, v) {
             return this.each(function(i) {
                 i.setAttribute(a, v);
             });
         },
+
         getAttr: function(v) {
             return this.el[0].getAttribute(v);
         },
+
         removeAttr: function(v) {
             return this.each(function(i) {
                 i.removeAttribute(v);
             });
         },
+
         animate: function(time, scale, rotate, rotateX, rotateY, translateX, translateY, skewX, skewY, opacity) {
             return this.each(function(i) {
                 i.style.cssText = i.style.cssText + 'transition: all ' + time + 's ease-in-out; transform: scale(' + scale + ') rotate(' + rotate + 'deg) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translate(' + translateX + 'px, ' + translateY + 'px) skew(' + skewX + 'deg, ' + skewY + 'deg); opacity:' + opacity + ';'
             });
         },
+
         on: function(type, fn) {
             return this.each(function(i) {
                 i.addEventListener(type, fn, false);
             });
         },
+
         addClass: function(v) {
             var a = v.split(' ');
             return this.each(function(i) {
@@ -79,6 +88,7 @@
                 }
             });
         },
+
         toggleClass: function(v) {
             var a = v.split(' ');
             return this.each(function(i) {
@@ -95,6 +105,7 @@
                 }
             });
         },
+
         removeClass: function(v) {
             var a = v.split(' ');
             return this.each(function(i) {
@@ -107,45 +118,54 @@
                 }
             });
         },
+
         html: function(v) {
             return (typeof v == 'undefined') ? this.el[0].innerHTML : this.each(function(i) {
                 i.innerHTML = v;
             });
         },
+
         text: function(v) {
             return (typeof v == 'undefined') ? this.el[0].innerText || this.el[0].textContent : this.each(function(i) {
                 i.innerText = v;
                 i.textContent = v;
             });
         },
+
         insertBefore: function(v) {
             return this.each(function(i) {
                 i.insertAdjacentHTML("beforeBegin", v);
             });
         },
+
         insertAfter: function(v) {
             return this.each(function(i) {
                 i.insertAdjacentHTML("afterEnd", v);
             });
         },
+
         insertFirst: function(v) {
             return this.each(function(i) {
                 i.insertAdjacentHTML("afterBegin", v);
             });
         },
+
         insertLast: function(v) {
             return this.each(function(i) {
                 i.insertAdjacentHTML("beforeEnd", v);
             });
         },
+
         empty: function() {
             return this.each(function(i) {
                 i.innerHTML = "";
             });
         },
+
         parent: function() {
             return q(this.el[0].parentNode);
         },
+
         siblings: function() {
             var thisElem = this.el[0];
             this.el = Array.prototype.filter.call(this.el[0].parentNode.children, function(child) {
@@ -153,11 +173,13 @@
             });
             return this;
         },
+
         offset: function() {
             return this.each(function(i) {
                 offset = i.getBoundingClientRect();
             });
         },
+
         data: function(attr, val) {
             if (val) {
                 return this.each(function(i) {
