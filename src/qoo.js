@@ -7,6 +7,10 @@
         window.q = factory();
     }
 })(function() {
+    if (!Element.prototype.matches) {
+        Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+    }
+    
     var qoo = function(s) {
         if (typeof s === "string") {
             this.el = Array.prototype.slice.call(document.querySelectorAll(s));
@@ -167,22 +171,53 @@
             return this;
         },
 
-        children: function() {
+        children: function(selector) {
             var children = [];
             this.each(function(i) {
                 var thisChildren = Array.prototype.slice.call(i.children);
-                children = children.concat(thisChildren);
+
+                for (var j = 0; j < thisChildren.length; j++) {
+                    var child = thisChildren[j];
+                    if (children.indexOf(child) === -1 && (!selector || child.matches(selector))) {
+                        children.push(child);
+                    }
+                }
             });
             this.el = children;
             return this;
         },
 
-        find: function() {
-            // TODO
+        find: function(selector) {
+            var found = [];
+            this.each(function(i) {
+                var foundInThis = Array.prototype.slice.call(i.querySelectorAll(selector));
+                for (var j = 0; j < foundInThis.length; j++) {
+                    if (found.indexOf(foundInThis[j]) === -1) {
+                        found.push(foundInThis[j]);
+                    }
+                }
+            });
+            this.el = found;
+            return this;
         },
 
-        closest: function() {
-            // TODO
+        closest: function(selector) {
+            var el = this.el[0];
+            this.el = [];
+            do {
+                if (el.matches(selector)) {
+                    this.el = [el];
+                    break;
+                }
+                el = el.parentElement || el.parentNode;
+            } while (el !== null && el.nodeType === 1);
+            return this;
+        },
+
+        remove: function() {
+            this.each(function(i) {
+                i.parentNode.removeChild(i);
+            });
         },
 
         offset: function() {
@@ -230,7 +265,7 @@
     var utils = function(selector) {
         return new qoo(selector);
     };
-
+    
     utils.isMobile = function() {
         return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
     };
