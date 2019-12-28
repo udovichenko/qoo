@@ -24,7 +24,7 @@
     };
 
     qoo.prototype = {
-        eq: function(n) {
+        n: function(n) {
             this.el = [this.el[n]];
             return this;
         },
@@ -48,25 +48,17 @@
             });
         },
 
-        attr: function(a, v) {
-            return this.each(function(i) {
-                i.setAttribute(a, v);
+        attr: function(attr, val) {
+            if (val == null) {
+                return this.el[0].getAttribute(attr);
+            } else return this.each(function(i) {
+                i.setAttribute(attr, val);
             });
         },
 
-        getAttr: function(v) {
-            return this.el[0].getAttribute(v);
-        },
-
-        removeAttr: function(v) {
+        removeAttr: function(attr) {
             return this.each(function(i) {
-                i.removeAttribute(v);
-            });
-        },
-
-        animate: function(time, scale, rotate, rotateX, rotateY, translateX, translateY, skewX, skewY, opacity) {
-            return this.each(function(i) {
-                i.style.cssText = i.style.cssText + 'transition: all ' + time + 's ease-in-out; transform: scale(' + scale + ') rotate(' + rotate + 'deg) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translate(' + translateX + 'px, ' + translateY + 'px) skew(' + skewX + 'deg, ' + skewY + 'deg); opacity:' + opacity + ';'
+                i.removeAttribute(attr);
             });
         },
 
