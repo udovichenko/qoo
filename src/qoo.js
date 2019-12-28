@@ -147,8 +147,10 @@
             return q(this.el[0].parentNode);
         },
         siblings: function() {
-            this.el = Array.prototype.filter.call(this.el[0].parentNode.children, (child) =>
-                child !== this.el[0]);
+            var thisElem = this.el[0];
+            this.el = Array.prototype.filter.call(this.el[0].parentNode.children, function(child) {
+                return child !== thisElem;
+            });
             return this;
         },
         offset: function() {
@@ -157,13 +159,13 @@
             });
         },
         data: function(attr, val) {
-            var elem = this.el[0];
-
             if (val) {
-                elem.dataset[attr] = val;
-                return this;
+                return this.each(function(i) {
+                    i.dataset[attr] = val;
+                });
 
             } else {
+                var elem = this.el[0];
                 var data = elem.dataset[attr];
 
                 if (data === "true") {
@@ -219,7 +221,7 @@
                 if (Object.prototype.hasOwnProperty.call(obj, prop)) {
                     // If deep merge and property is an object, merge properties
                     if (deep && Object.prototype.toString.call(obj[prop]) === '[object Object]') {
-                        extended[prop] = extend(true, extended[prop], obj[prop]);
+                        extended[prop] = utils.extend(true, extended[prop], obj[prop]);
                     } else {
                         extended[prop] = obj[prop];
                     }
