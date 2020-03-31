@@ -1,5 +1,6 @@
 {
   "name": "qoo",
+  "main": "dist/qoo.min.js",
   "version": "0.0.1",
   "description": "tiny jQuery alternative with very basic functions",
   "repository": {
