@@ -26,6 +26,21 @@ q.extend(true, options, {a: 1, b: {c: 2}}, {b: {d: 3}});
 
 It works in IE11 and later.
 
+`q.typeOf()` uses `Object.prototype.toString` to detect type of expression 
+
+```javascript
+q.typeOf(1); // Number
+q.typeOf(''); // String
+q.typeOf(true); // Boolean
+q.typeOf([]); // Array
+q.typeOf({}); // Object
+q.typeOf(function(){}); // Function
+q.typeOf(document.querySelector('div')); // HTMLDivElement
+q.typeOf(document.querySelectorAll('div')); // NodeList
+q.typeOf(null); // Null
+q.typeOf(); // Undefined
+```
+
 ### Methods:
 
 n  
@@ -33,7 +48,6 @@ first
 last  
 each  
 css  
-cssdom  
 attr  
 removeAttr  
 on  

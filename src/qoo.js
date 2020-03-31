@@ -11,6 +11,12 @@
         Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
     }
 
+    var typeOf = function(obj) {
+        var type = Object.prototype.toString.call(obj);
+        type = type.replace('[object ', '').replace(']', '');
+        return type;
+    };
+
     var qoo = function(s) {
         if (typeof s === "string") {
             this.el = Array.prototype.slice.call(document.querySelectorAll(s));
@@ -36,11 +42,11 @@
             return this;
         },
 
-        first: function(){
+        first: function() {
             return this.n(0);
         },
 
-        last: function(){
+        last: function() {
             return this.n(-1);
         },
 
@@ -49,25 +55,27 @@
             return this;
         },
 
-        css: function(v) {
-            return this.each(function(i) {
-                i.style.cssText = i.style.cssText + v;
-            });
+        css: function(arg) {
+            if (typeof arg === 'string') {
+                if (arg.indexOf(':') === -1) {
+                    return getComputedStyle(this.el[0])[arg];
+                } else return this.each(function(i) {
+                    i.style.cssText = i.style.cssText + arg;
+                });
+            } else if (typeOf(arg) === 'Object') {
+                return this.each(function(i) {
+                    for (var key in arg) {
+                        i.style[key] = arg[key];
+                    }
+                });
+            } else return this;
         },
 
-        cssdom: function(v) {
-            return this.each(function(i) {
-                for (var key in v) {
-                    i.style[key] = v[key];
-                }
-            });
-        },
-
-        attr: function(attr, val) {
-            if (val == null) {
+        attr: function(attr, value) {
+            if (value === undefined) {
                 return this.el[0].getAttribute(attr);
             } else return this.each(function(i) {
-                i.setAttribute(attr, val);
+                i.setAttribute(attr, value);
             });
         },
 
@@ -86,7 +94,7 @@
         trigger: function(eventType, data) {
             var event;
             if (window.CustomEvent && typeof window.CustomEvent === 'function') {
-                 event = new CustomEvent(eventType, {detail: data});
+                event = new CustomEvent(eventType, {detail: data});
             } else {
                 event = document.createEvent('CustomEvent');
                 event.initCustomEvent(eventType, true, true, data);
@@ -243,7 +251,7 @@
             });
         },
 
-        is: function(selector){
+        is: function(selector) {
             return this.el[0].matches(selector);
         },
 
@@ -358,6 +366,8 @@
             if (callNow) func.apply(context, args);
         };
     };
+
+    utils.typeOf = typeOf;
 
     return utils;
 });
